@@ -8,7 +8,8 @@ const handleError = (res, err) => {
 
 module.exports = {
   getSearch: (req, res) => {
-    getMoviesByGenre(req.body)
+    console.log(req.query.genre);
+    getMoviesByGenre(req.query.genre)
       .then(({ results }) => {
         res.json(results).status(200);
       })
@@ -27,8 +28,9 @@ module.exports = {
       });
   },
   saveMovie: (req, res) => {
-    console.log(req.body);
-    // movie.model(req.body);
+    //inc
   },
-  deleteMovie: (req, res) => {},
+  deleteMovie: (req, res) => {
+    //inc
+  },
 };

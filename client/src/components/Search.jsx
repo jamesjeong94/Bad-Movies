@@ -6,12 +6,26 @@ class Search extends React.Component {
     super(props);
     this.state = {
       genres: [],
+      selected: "",
     };
-    this.getGenres.bind(this);
+    this.getGenres = this.getGenres.bind(this);
+    this.searchMovies = this.searchMovies.bind(this);
+    this.selectChange = this.selectChange.bind(this);
   }
 
   componentDidMount() {
     this.getGenres();
+  }
+
+  selectChange(e) {
+    console.log(e.currentTarget.value);
+    this.setState({
+      selected: e.currentTarget.value,
+    });
+  }
+
+  searchMovies() {
+    this.props.search(this.state.selected);
   }
 
   getGenres() {
@@ -41,16 +55,19 @@ class Search extends React.Component {
         {/* Make the select options dynamic from genres !!! */}
         {/* How can you tell which option has been selected from here? */}
 
-        <select>
+        <select onChange={this.selectChange}>
           {this.state.genres.map((genre) => {
-            return <option value={genre.id}>{genre.name}</option>;
+            return (
+              <option value={genre.id} key={genre.id} name={genre.name}>
+                {genre.name}
+              </option>
+            );
           })}
-          <option value="theway">The Way</option>
         </select>
         <br />
         <br />
 
-        <button>Search</button>
+        <button onClick={this.searchMovies}>Search</button>
       </div>
     );
   }

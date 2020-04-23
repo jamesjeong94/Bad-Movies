@@ -14,6 +14,7 @@ const movies = new Sequelize(config.database, config.user, config.password, {
 const Favorites = movies.define("Favorite", {
   title: Sequelize.INTEGER,
   vote_average: Sequelize.FLOAT,
+  img_url: Sequelize.STRING,
   release_date: Sequelize.DATE,
   genre_ids: Sequelize.STRING,
   description: Sequelize.STRING,

@@ -19,15 +19,26 @@ class App extends React.Component {
     this.swapFavorites = this.swapFavorites.bind(this);
   }
 
-  getMovies() {
+  getMovies(genre) {
     axios({
       method: "get",
       url: "/movies/search",
+      params: {
+        genre: genre,
+      },
+      header: {
+        "Content-Type": "application/json",
+      },
     })
-      .then((data) => {
-        this.setState({
-          movies: data,
-        });
+      .then(({ data }) => {
+        this.setState(
+          {
+            movies: data,
+          },
+          () => {
+            console.log(this.state);
+          }
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -60,6 +71,7 @@ class App extends React.Component {
           <Search
             swapFavorites={this.swapFavorites}
             showFaves={this.state.showFaves}
+            search={this.getMovies}
           />
           <Movies
             movies={
