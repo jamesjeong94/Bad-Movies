@@ -1,21 +1,10 @@
 const axios = require("axios");
 const movieModel = require("../models/movieModel.js");
 const apiHelpers = require("../helpers/apiHelpers.js");
-const key = process.env.API_KEY;
+
 //Return requests to the client
 module.exports = {
   getSearch: (req, res) => {
-    return axios({
-      method: "get",
-      url: `https://api.themoviedb.org/3/discover/movie?with_genres=&api_key=${key}`,
-      data: {},
-    })
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        return err;
-      });
     // get the search genre
     // https://www.themoviedb.org/account/signup
     // get your API KEY
