@@ -1,31 +1,34 @@
-const axios = require("axios");
 const movieModel = require("../models/movieModel.js");
-const apiHelpers = require("../helpers/apiHelpers.js");
+const { getGenreList, getMoviesByGenre } = require("../helpers/apiHelpers.js");
 
-//Return requests to the client
-module.exports = {
-  getSearch: (req, res) => {
-    // get the search genre
-    // https://www.themoviedb.org/account/signup
-    // get your API KEY
-    // use this endpoint to search for movies by genres, you will need an API key
-    // https://api.themoviedb.org/3/discover/movie
-    // and sort them by horrible votes using the search parameters in the API
-  },
-  getGenres: (req, res) => {
-    // make an axios request to get the list of official genres
-    // use this endpoint, which will also require your API key: https://api.themoviedb.org/3/genre/movie/list
-    // send back
-  },
-  saveMovie: (req, res) => {},
-  deleteMovie: (req, res) => {},
+const handleError = (res, err) => {
+  console.log(err);
+  // res.status(500);
 };
 
-module.exports
-  .getSearch()
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+module.exports = {
+  getSearch: (req, res) => {
+    getMoviesByGenre(req.body)
+      .then(({ results }) => {
+        res.json(results).status(200);
+      })
+      .catch((err) => {
+        handleError(res, err);
+      });
+  },
+
+  getGenres: (req, res) => {
+    getGenreList()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        handleError(res, err);
+      });
+  },
+  saveMovie: (req, res) => {
+    console.log(req.body);
+    // movie.model(req.body);
+  },
+  deleteMovie: (req, res) => {},
+};
