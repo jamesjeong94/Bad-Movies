@@ -28,18 +28,26 @@ module.exports = {
       });
   },
   saveMovie: (req, res) => {
-    console.log(req.body);
-    // Favorites.create({
-    //   title:
-    //   vote_average: Sequelize.FLOAT,
-    //   img_url: Sequelize.STRING,
-    //   release_date: Sequelize.DATE,
-    //   genre_ids: Sequelize.STRING,
-    //   description: Sequelize.STRING,
-    // })
-    //inc
+    const meta = JSON.parse(req.body.meta);
+    console.log(meta);
+    Favorites.create({
+      title: meta.title,
+      vote_average: meta.vote_average,
+      img_url: meta.poster_path,
+      release_date: meta.release_date,
+      genre_ids: JSON.stringify({ genre_ids: meta.genre_ids }),
+      description: meta.overview,
+    })
+      .then(() => {
+        res.status(200);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
   },
   deleteMovie: (req, res) => {
+    console.log(req.body);
     //inc
   },
 };

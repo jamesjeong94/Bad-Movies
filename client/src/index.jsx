@@ -47,22 +47,28 @@ class App extends React.Component {
   }
 
   saveMovie(e) {
-    let meta = e.currentTarget.getAttribute("meta");
+    const meta = e.currentTarget.getAttribute("meta");
     axios({
-      method: "post",
+      method: "POST",
       url: "/movies/save",
-      body: { meta: meta },
-      headers: { "Content-Type": "application/json" },
-    })
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-        res.status(500);
-      });
+      data: meta
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     // same as above but do something diff
   }
 
   deleteMovie() {
+    const meta = JSON.parse(e.currentTarget.getAttribute("meta"));
+    axios({
+      method: "DELETE",
+      url: "/movies/delete",
+      params: {id: meta.id},
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     // same as above but do something diff
   }
 
