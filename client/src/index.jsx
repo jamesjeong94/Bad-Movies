@@ -14,9 +14,13 @@ class App extends React.Component {
       showFaves: false,
     };
     this.getMovies = this.getMovies.bind(this);
+    this.getFavorites = this.getFavorites.bind(this);
     this.saveMovie = this.saveMovie.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
     this.swapFavorites = this.swapFavorites.bind(this);
+  }
+  componentDidMount() {
+    this.getFavorites();
   }
 
   getMovies(genre) {
@@ -31,14 +35,9 @@ class App extends React.Component {
       },
     })
       .then(({ data }) => {
-        this.setState(
-          {
-            movies: data,
-          },
-          () => {
-            console.log(this.state);
-          }
-        );
+        this.setState({
+          movies: data,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -46,28 +45,49 @@ class App extends React.Component {
       });
   }
 
+  getFavorites() {
+    axios({
+      method: "get",
+      url: "/movies/favorites",
+      header: {
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      this.setState({
+        favorites: data,
+      });
+    });
+  }
+
   saveMovie(e) {
     const meta = e.currentTarget.getAttribute("meta");
     axios({
       method: "POST",
       url: "/movies/save",
-      data: meta
+      data: meta,
       headers: {
         "Content-Type": "application/json",
       },
-    });
-    // same as above but do something diff
+    })
+      .then(() => {
+        this.getFavorites();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  deleteMovie() {
+  deleteMovie(e) {
     const meta = JSON.parse(e.currentTarget.getAttribute("meta"));
     axios({
       method: "DELETE",
       url: "/movies/delete",
-      params: {id: meta.id},
+      params: { title: meta.title },
       headers: {
         "Content-Type": "application/json",
       },
+    }).then(() => {
+      this.getFavorites();
     });
     // same as above but do something diff
   }
@@ -97,7 +117,7 @@ class App extends React.Component {
               this.state.showFaves ? this.state.favorites : this.state.movies
             }
             showFaves={this.state.showFaves}
-            saveMovie={this.saveMovie}
+            saveMovie={this.state.showFaves ? this.deleteMovie : this.saveMovie}
           />
         </div>
       </div>

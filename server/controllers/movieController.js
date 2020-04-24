@@ -27,19 +27,28 @@ module.exports = {
         handleError(res, err);
       });
   },
+
+  getFavorites: (req, res) => {
+    Favorites.findAll()
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        handleError(res, err);
+      });
+  },
+
   saveMovie: (req, res) => {
-    const meta = JSON.parse(req.body.meta);
-    console.log(meta);
+    const meta = req.body;
     Favorites.create({
       title: meta.title,
       vote_average: meta.vote_average,
-      img_url: meta.poster_path,
+      poster_path: meta.poster_path,
       release_date: meta.release_date,
       genre_ids: JSON.stringify({ genre_ids: meta.genre_ids }),
-      description: meta.overview,
     })
       .then(() => {
-        res.status(200);
+        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);
@@ -47,7 +56,16 @@ module.exports = {
       });
   },
   deleteMovie: (req, res) => {
-    console.log(req.body);
-    //inc
+    const meta = req.query;
+    Favorites.destroy({
+      where: { title: meta.title },
+    })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
   },
 };
