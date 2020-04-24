@@ -5,8 +5,8 @@ const movieRoutes = require("./routes/movieRoutes.js");
 const app = express();
 
 //Middleware
-app.use(bodyParser.json());
 app.use(express.static(__dirname + "/../client/dist"));
+app.use(bodyParser.json());
 
 //Routes
 app.use("/movies", movieRoutes);

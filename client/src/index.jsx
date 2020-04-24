@@ -9,8 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: [{ deway: "movies" }],
-      favorites: [{ deway: "favorites" }],
+      movies: [],
+      favorites: [],
       showFaves: false,
     };
     this.getMovies = this.getMovies.bind(this);
@@ -42,10 +42,23 @@ class App extends React.Component {
       })
       .catch((err) => {
         console.log(err);
+        res.status(500);
       });
   }
 
-  saveMovie() {
+  saveMovie(e) {
+    let meta = e.currentTarget.getAttribute("meta");
+    axios({
+      method: "post",
+      url: "/movies/save",
+      body: { meta: meta },
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+      });
     // same as above but do something diff
   }
 
@@ -78,6 +91,7 @@ class App extends React.Component {
               this.state.showFaves ? this.state.favorites : this.state.movies
             }
             showFaves={this.state.showFaves}
+            saveMovie={this.saveMovie}
           />
         </div>
       </div>

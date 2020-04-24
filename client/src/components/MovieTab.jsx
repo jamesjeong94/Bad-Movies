@@ -1,9 +1,8 @@
 import React from "react";
 
-const MovieTab = ({ movie }) => {
-  console.log(movie);
+const MovieTab = ({ movie, saveMovie }) => {
   return (
-    <li className="movie_item">
+    <li onClick={saveMovie} className="movie_item" meta={JSON.stringify(movie)}>
       <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
       <div className="movie_description">
         <h2>{movie.title}</h2>

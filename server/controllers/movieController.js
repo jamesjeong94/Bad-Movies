@@ -1,4 +1,4 @@
-const movieModel = require("../models/movieModel.js");
+const { Favorites, Genres } = require("../models/movieModel.js");
 const { getGenreList, getMoviesByGenre } = require("../helpers/apiHelpers.js");
 
 const handleError = (res, err) => {
@@ -28,6 +28,15 @@ module.exports = {
       });
   },
   saveMovie: (req, res) => {
+    console.log(req.body);
+    // Favorites.create({
+    //   title:
+    //   vote_average: Sequelize.FLOAT,
+    //   img_url: Sequelize.STRING,
+    //   release_date: Sequelize.DATE,
+    //   genre_ids: Sequelize.STRING,
+    //   description: Sequelize.STRING,
+    // })
     //inc
   },
   deleteMovie: (req, res) => {

@@ -8,7 +8,7 @@ const getMoviesByGenre = (genre) => {
     url: `https://api.themoviedb.org/3/discover/movie`,
     params: {
       api_key: key,
-      genre: genre,
+      with_genres: genre,
       sort_by: "vote_average.asc",
       language: "en-US",
       "vote_count.gte": 100,

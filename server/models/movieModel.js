@@ -3,7 +3,6 @@ const sqlDb = require("../../db/sql");
 const config = require("../../config");
 // const mysql = require("mysql");
 require("dotenv").config();
-//Select one db to work with:
 
 //For SQL
 const movies = new Sequelize(config.database, config.user, config.password, {
@@ -12,7 +11,7 @@ const movies = new Sequelize(config.database, config.user, config.password, {
 });
 
 const Favorites = movies.define("Favorite", {
-  title: Sequelize.INTEGER,
+  title: Sequelize.STRING,
   vote_average: Sequelize.FLOAT,
   img_url: Sequelize.STRING,
   release_date: Sequelize.DATE,
@@ -36,4 +35,7 @@ movies.sync(() => {
 });
 // const mongoDb = require("../../db/mongodb");
 
-module.exports = movies;
+module.exports = {
+  Favorites: Favorites,
+  Genres: Genres,
+};
